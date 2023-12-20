@@ -1,0 +1,41 @@
+import pygame
+from pygame.locals import *
+from OpenGL.GL import *
+from OpenGL.GLU import *
+
+pygame.init()
+display = (800, 600)
+pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
+pygame.display.set_caption("Simple 3D Game")
+
+def cube():
+    glBegin(GL_QUADS)
+    glVertex3f(1.0, 1.0, -1.0)
+    glVertex3f(-1.0, 1.0, -1.0)
+    glVertex3f(-1.0, 1.0, 1.0)
+    glVertex3f(1.0, 1.0, 1.0)
+    glEnd()
+    
+def move_cube():
+    glTranslatef(0.0, 0.0, -1.0)
+    
+def draw_cube():
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+    glLoadIdentity()
+    move_cube()
+    cube()
+    pygame.display.flip()
+    pygame.time.wait(10)
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+             pygame.quit()
+            quit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                glTranslatef(-1.0, 0.0, 0.0)
+            if event.key == pygame.K_RIGHT:
+                glTranslatef(1.0, 0.0, 0.0)
+    
+    draw_cube()
